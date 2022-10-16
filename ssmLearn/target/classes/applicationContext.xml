@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--无参构造方法实例化-->
+<!--    <bean id="userDao" class="com.example.ssmlearner.dao.impl.UserDaoImpl" init-method="init" destroy-method="destroy"></bean>-->
+
+<!--工厂静态方法实例化-->
+<!--    <bean id="userDao" class="com.example.ssmlearner.factory.StaticFactory" factory-method="getUserDao"></bean>-->
+
+<!--工厂实例方法实例化-->
+<!--    <bean id="factory" class="com.example.ssmlearner.factory.DynamicFactory" ></bean>-->
+<!--    <bean id="userDao" factory-bean="factory" factory-method="getUserDao"></bean>-->
+
+
+<!--构造set方法实现依赖注入-->
+<!--    普通元素注入-->
+<!--    <bean id="userDao" class="com.example.ssmlearner.dao.impl.UserDaoImpl">-->
+<!--        <property name="name" value="demxntia"/>-->
+<!--        <property name="age" value="21"/>-->
+<!--    </bean>-->
+
+    <bean id="userDao" class="com.example.ssmlearner.dao.impl.UserDaoImpl">
+        <property name="stringList">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </list>
+        </property>
+        <property name="userMap">
+            <map>
+                <entry key="u1" value-ref="user01"></entry>
+                <entry key="u2" value-ref="user02"></entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="user01" class="com.example.ssmlearner.domain.User">
+        <property name="name" value="tom"></property>
+        <property name="addr" value="beijing"></property>
+    </bean>
+    <bean id="user02" class="com.example.ssmlearner.domain.User">
+        <property name="name" value="jack"></property>
+        <property name="addr" value="xi'an"></property>
+    </bean>
+
+<!--    <bean id="userService" class="com.example.ssmlearner.service.impl.UserServiceImpl">-->
+<!--        <property name="userDao" ref="userDao"></property>-->
+<!--    </bean>-->
+
+<!--    <bean id="userService" class="com.example.ssmlearner.service.impl.UserServiceImpl" p:userDao-ref="userDao"></bean>-->
+    <bean id="userService" class="com.example.ssmlearner.service.impl.UserServiceImpl">
+        <constructor-arg name="userDao" ref="userDao">
+        </constructor-arg>
+    </bean>
+
+</beans>
